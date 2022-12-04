@@ -1,14 +1,6 @@
 import sys
 import re
-
-
-def contains(a1, a2, b1, b2):
-    return a1 <= b1 and a2 >= b2
-
-
-def overlaps(a1, a2, b1, b2):
-    return a1 <= b1 and b1 <= a2 or a1 <= b2 and b2 <= a2
-
+from lib import *
 
 with open(sys.argv[1]) as f:
     lines = f.readlines()
@@ -22,7 +14,7 @@ for line in lines:
     if contains(a1, a2, b1, b2) or contains(b1, b2, a1, a2):
         print(a1, a2, b1, b2)
         containing_count += 1
-    if overlaps(a1, a2, b1, b2) or overlaps(b1, b2, a1, a2):
+    if overlaps(a1, a2, b1, b2):
         print(a1, a2, b1, b2)
         overlap_count += 1
 
