@@ -9,8 +9,15 @@ stacks, commands = parse(lines)
 
 for c in commands:
     execute_command(c, stacks)
-    print(stacks)
 
 part1 = "".join(stacks.peek_many(1, 10))
 print(f"Part 1: { part1}")
-# print(f"Part 2: {overlap_count}")
+
+
+stacks, commands = parse_inner(lines, Stacks9001())
+
+for c in commands:
+    execute_command(c, stacks)
+
+part2 = "".join(stacks.peek_many(1, 10))
+print(f"Part 2: { part2}")

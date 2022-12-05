@@ -26,9 +26,18 @@ def test_stack_move():
     stacks = Stacks()
     stacks.push(1, "D")
     stacks.push(1, "E")
-    stacks.move(1, 2)
+    stacks.move(1, 1, 2)
     assert "E" == stacks.pop(2)
     assert "D" == stacks.pop(1)
+
+
+def test_stack9001_move():
+    stacks = Stacks9001()
+    stacks.push(1, "D")
+    stacks.push(1, "E")
+    stacks.move(1, 1, 2)
+    assert "D" == stacks.pop(1)
+    assert "E" == stacks.pop(2)
 
 
 def test_execute_command():
