@@ -17,6 +17,7 @@ def test_diag1(): assert new_tail(Point(2, 1), Point(0, 0)) == Point(1, 1)
 def test_diag2(): assert new_tail(Point(-2, 1), Point(0, 0)) == Point(-1, 1)
 def test_diag3(): assert new_tail(Point(-2, -1), Point(0, 0)) == Point(-1, -1)
 def test_diag4(): assert new_tail(Point(2, -1), Point(0, 0)) == Point(1, -1)
+def test_diag5(): assert new_tail(Point(2, 2), Point(0, 0)) == Point(1, 1)
 
 
 def test_hash():
