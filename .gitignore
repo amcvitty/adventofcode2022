@@ -131,7 +131,3 @@ dmypy.json
 
 # Advent of code things
 input.txt
-example.txt
-
-input.txt.bak
-example.txt.bak
