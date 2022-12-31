@@ -1,12 +1,12 @@
 import re
 
-
 # Monkey 0:
 #   Starting items: 79, 98
 #   Operation: new = old * 19
 #   Test: divisible by 23
 #     If true: throw to monkey 2
 #     If false: throw to monkey 3
+
 
 class Parser:
     def __init__(self, lines):
@@ -18,6 +18,10 @@ class Parser:
         while self.has_more():
             self.expect('^$')
             monkeys.append(self.parse_monkey())
+
+        divisors = [m.div_by for m in monkeys]
+        for m in monkeys:
+            m.items = [Item(i, divisors) for i in m.items]
         return monkeys
 
     def parse_monkey(self):
@@ -72,20 +76,24 @@ class Monkey:
         x = self.items.pop(0)
         # print(f'Monkey inspects an item with a worry level of {x}.  ')
         if self.op2 == 'old':
-            y = x
+            if self.op == '*':
+                x.square()
+            elif self.op == '+':
+                raise ValueError(f'Op + undefined for "old"')
+            else:
+                raise ValueError(f'No op for {self.op}')
+
         else:
             y = int(self.op2)
 
-        if self.op == '*':
-            x *= y
-        elif self.op == '+':
-            x += y
-        else:
-            raise ValueError(f'No op for {self.op}')
+            if self.op == '*':
+                x.mult(y)
+            elif self.op == '+':
+                x.add(y)
+            else:
+                raise ValueError(f'No op for {self.op}')
 
-        x = x // 3
-
-        if x % self.div_by == 0:
+        if x.div_by(self.div_by):
             return x, self.if_true
         else:
             return x, self.if_false
@@ -94,6 +102,25 @@ class Monkey:
         return len(self.items) > 0
 
 
+class Item:
+    def __init__(self, worry, divisors):
+        self.worries = [(worry % d, d) for d in divisors]
+
+    def add(self, x):
+        self.worries = [((w + x) % d, d) for w, d in self.worries]
+
+    def mult(self, x):
+        self.worries = [((w * x) % d, d) for w, d in self.worries]
+
+    def square(self):
+        self.worries = [((w * w) % d, d) for w, d in self.worries]
+
+    # Will throw error if the divisor is not in the list
+    def div_by(self, y):
+        return [x % y == 0 for x, d in self.worries if d == y][0]
+
+
 def dump(monkeys):
     for i, m in enumerate(monkeys):
-        print(f'Monkey {i}: {m.items}. {m.inspections}')
+        print(
+            f'Monkey {i}: {m.inspections}')
